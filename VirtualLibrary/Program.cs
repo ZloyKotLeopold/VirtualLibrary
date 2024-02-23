@@ -33,19 +33,7 @@ namespace VirtualLibrary
             List<Book> myBooks = new List<Book>();
             List<Book> searchingBooks = new List<Book>();
 
-            Book book1 = new Book("Игра Эндера", "Кард Орсон Скотт", "Фантастика", 1985);
-            Book book2 = new Book("Тень Эндера", "Кард Орсон Скотт", "Фантастика", 1999);
-            Book book3 = new Book("Седьмое Солнце: игры с вниманием", "Рина Ра", "Паранормальное", 2021);
-            Book book4 = new Book("Арсанты: Дети богов", "Фарутин Антон", "Фантастика", 2020);
-            Book book5 = new Book("Арсанты 2. Линии судьбы", "Фарутин Антон", "Фантастика", 2021);
-            Book book6 = new Book("Я - Легенда", "Матесон Ричард", "Постапокалиптика", 1954);
-
-            library.AddBook(book1);
-            library.AddBook(book2);
-            library.AddBook(book3);
-            library.AddBook(book4);
-            library.AddBook(book5);
-            library.AddBook(book6);
+            FillingLibrary(library);
 
             SerchBook libraryBooks = new SerchBook((ICollection<Book>)library.ReadOnlyBooksCollection);
 
@@ -256,6 +244,23 @@ namespace VirtualLibrary
 
                 Console.Clear();
             }
+        }
+
+        static private void FillingLibrary(Library library)
+        {
+            Book book1 = new Book("Игра Эндера", "Кард Орсон Скотт", "Фантастика", 1985);
+            Book book2 = new Book("Тень Эндера", "Кард Орсон Скотт", "Фантастика", 1999);
+            Book book3 = new Book("Седьмое Солнце: игры с вниманием", "Рина Ра", "Паранормальное", 2021);
+            Book book4 = new Book("Арсанты: Дети богов", "Фарутин Антон", "Фантастика", 2020);
+            Book book5 = new Book("Арсанты 2. Линии судьбы", "Фарутин Антон", "Фантастика", 2021);
+            Book book6 = new Book("Я - Легенда", "Матесон Ричард", "Постапокалиптика", 1954);
+
+            library.AddBook(book1);
+            library.AddBook(book2);
+            library.AddBook(book3);
+            library.AddBook(book4);
+            library.AddBook(book5);
+            library.AddBook(book6);
         }
 
         static private void ShowMenu()
