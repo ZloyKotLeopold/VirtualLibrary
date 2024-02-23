@@ -13,6 +13,8 @@ namespace VirtualLibrary
             CommandHandler commandHandler = new CommandHandler(library);
             InputHandler inputHandler = new InputHandler(commandHandler);
 
+            //знаю что нельзя оставлять комментарии забыл написать что от класса Librarian в принципе модно избавиться 
+
             while (inputHandler.IsActiv)
             {
                 inputHandler.ProcessInput();
