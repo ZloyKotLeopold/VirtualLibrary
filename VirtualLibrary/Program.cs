@@ -13,8 +13,6 @@ namespace VirtualLibrary
             CommandHandler commandHandler = new CommandHandler(library);
             InputHandler inputHandler = new InputHandler(commandHandler);
 
-            //знаю что нельзя оставлять комментарии забыл написать что от класса Librarian в принципе модно избавиться 
-
             while (inputHandler.IsActiv)
             {
                 inputHandler.ProcessInput();
@@ -167,6 +165,7 @@ namespace VirtualLibrary
             foreach (var book in books)
                 Console.WriteLine($"{book.Title}\n{book.Author}\n{book.Genre}\n{book.Year}\n\n");
         }
+
     }
 
     public class InputHandler
@@ -250,6 +249,7 @@ namespace VirtualLibrary
             Console.WriteLine($"Для поиска книг по году введите - {ParameterSerchBookBYear}");
             Console.WriteLine($"Для выхода введите - {ParameterExit}\n\n");
         }
+
     }
 
     public class Librarian
@@ -268,6 +268,7 @@ namespace VirtualLibrary
         public IReadOnlyCollection<Book> SearchByGenre(string genre) => _books.Where(book => book.Genre.Contains(genre)).ToList();
 
         public IReadOnlyCollection<Book> SearchByYear(int year) => _books.Where(book => book.Year == year).ToList();
+
     }
 
     public class Book
@@ -300,5 +301,6 @@ namespace VirtualLibrary
         public void RemoveBook(Book book) => _books.Remove(book);
 
         public IReadOnlyCollection<Book> LibraryBooks => _books;
+
     }
 }
