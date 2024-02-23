@@ -145,7 +145,7 @@ namespace VirtualLibrary
 
             title = Console.ReadLine();
 
-            ChoosingBook(_libraryan.SearchByTitle(title));
+            ChoosingBook((ICollection<Book>)_libraryan.SearchByTitle(title));
         }
 
         public void HandleByAuthor()
@@ -156,7 +156,7 @@ namespace VirtualLibrary
 
             author = Console.ReadLine();
 
-            ChoosingBook(_libraryan.SearchByAuthor(author));
+            ChoosingBook((ICollection<Book>)_libraryan.SearchByAuthor(author));
         }
 
         public void HandleByGenre()
@@ -167,7 +167,7 @@ namespace VirtualLibrary
 
             genre = Console.ReadLine();
 
-            ChoosingBook(_libraryan.SearchByGenre(genre));
+            ChoosingBook((ICollection<Book>)_libraryan.SearchByGenre(genre));
         }
 
         public void HandleByYear()
@@ -179,7 +179,7 @@ namespace VirtualLibrary
             userInput = Console.ReadLine();
 
             if (int.TryParse(userInput, out int year))           
-                ChoosingBook(_libraryan.SearchByYear(year));            
+                ChoosingBook((ICollection<Book>)_libraryan.SearchByYear(year));            
             else            
                 Console.WriteLine("Неверный ввод!");            
         }
@@ -223,7 +223,7 @@ namespace VirtualLibrary
 
                         userInput = Console.ReadLine();
 
-                        GetBook(_libraryan.SearchByTitle(userInput));
+                        GetBook((ICollection<Book>)_libraryan.SearchByTitle(userInput));
                     }
 
                     if (books.Count == 1)
@@ -376,13 +376,13 @@ namespace VirtualLibrary
             _books = books;
         }
 
-        public List<Book> SearchByTitle(string title) => _books.Where(book => book.Title.Contains(title)).ToList();
+        public IReadOnlyCollection<Book> SearchByTitle(string title) => _books.Where(book => book.Title.Contains(title)).ToList();
 
-        public List<Book> SearchByAuthor(string author) => _books.Where(book => book.Author.Contains(author)).ToList();
+        public IReadOnlyCollection<Book> SearchByAuthor(string author) => _books.Where(book => book.Author.Contains(author)).ToList();
 
-        public List<Book> SearchByGenre(string genre) => _books.Where(book => book.Genre.Contains(genre)).ToList();
+        public IReadOnlyCollection<Book> SearchByGenre(string genre) => _books.Where(book => book.Genre.Contains(genre)).ToList();
 
-        public List<Book> SearchByYear(int year) => _books.Where(book => book.Year == year).ToList();
+        public IReadOnlyCollection<Book> SearchByYear(int year) => _books.Where(book => book.Year == year).ToList();
     }
 
     public class Book
