@@ -26,31 +26,18 @@ namespace VirtualLibrary
 
     public class CommandHandler
     {
-        private const int ParameterPressYes = 1;
-        private const int ParameterPressNo = 2;
-
         private Library _library;
-        private List<Book> _readingBooks;
         private Librarian _libraryan;
 
         public CommandHandler(Library library)
         {
             _library = library;
-            _readingBooks = new List<Book>();
             _libraryan = new Librarian((ICollection<Book>)library.LibraryBooks);
         }
 
         public void ShowAllBooks()
         {
             PrintBookInfofmation((ICollection<Book>)_library.LibraryBooks);
-        }
-
-        public void ShowMyBooks()
-        {
-            if (_readingBooks.Count != 0)
-                PrintBookInfofmation(_readingBooks);
-            else
-                Console.WriteLine("Вы пока не брали книг попробуйте взять");
         }
 
         public void AddNewBook()
@@ -87,40 +74,6 @@ namespace VirtualLibrary
             }
         }
 
-        public void TakeBook()
-        {
-            string title;
-
-            Console.Write("Введите название книги которую хотите взять: ");
-
-            title = Console.ReadLine();
-
-            foreach (Book book in _libraryan.SearchByTitle(title))
-            {
-                _library.TakeBook(book);
-                _readingBooks.Add(book);
-
-                Console.WriteLine("Вы успеешно взялди книгу.\n");
-            }
-        }
-
-        public void GiveBook()
-        {
-            string title;
-
-            Console.Write("Введите название книги которую хотите сдать: ");
-
-            title = Console.ReadLine();
-
-            foreach (Book book in _readingBooks.Where(book => book.Title.Contains(title)).ToList())
-            {
-                _library.AddBook(book);
-                _readingBooks.Remove(book);
-
-                Console.WriteLine("Вы успеешно сдали книгу.\n");
-            }
-        }
-
         public void DropBook()
         {
             string title;
@@ -129,9 +82,9 @@ namespace VirtualLibrary
 
             title = Console.ReadLine();
 
-            foreach (Book book in _readingBooks.Where(book => book.Title.Contains(title)).ToList())
+            foreach (Book book in _library.LibraryBooks.Where(book => book.Title.Contains(title)).ToList())
             {
-                _readingBooks.Remove(book);
+                _library.RemoveBook(book);
 
                 Console.WriteLine("Вы безвозвратно выкинули книгу.\n");
             }
@@ -145,7 +98,7 @@ namespace VirtualLibrary
 
             title = Console.ReadLine();
 
-            ChoosingBook((ICollection<Book>)_libraryan.SearchByTitle(title));
+            ShowBooks((ICollection<Book>)_libraryan.SearchByTitle(title));
         }
 
         public void HandleByAuthor()
@@ -156,7 +109,7 @@ namespace VirtualLibrary
 
             author = Console.ReadLine();
 
-            ChoosingBook((ICollection<Book>)_libraryan.SearchByAuthor(author));
+            ShowBooks((ICollection<Book>)_libraryan.SearchByAuthor(author));
         }
 
         public void HandleByGenre()
@@ -167,7 +120,7 @@ namespace VirtualLibrary
 
             genre = Console.ReadLine();
 
-            ChoosingBook((ICollection<Book>)_libraryan.SearchByGenre(genre));
+            ShowBooks((ICollection<Book>)_libraryan.SearchByGenre(genre));
         }
 
         public void HandleByYear()
@@ -179,7 +132,7 @@ namespace VirtualLibrary
             userInput = Console.ReadLine();
 
             if (int.TryParse(userInput, out int year))           
-                ChoosingBook((ICollection<Book>)_libraryan.SearchByYear(year));            
+                ShowBooks((ICollection<Book>)_libraryan.SearchByYear(year));            
             else            
                 Console.WriteLine("Неверный ввод!");            
         }
@@ -200,59 +153,6 @@ namespace VirtualLibrary
             _library.AddBook(book5);
             _library.AddBook(book6);
         }
-
-        private void ChoosingBook(ICollection<Book> books)
-        {
-            string userInput;
-
-            if (books.Count >= 1)
-            {
-                ShowBooks(books);
-
-                Console.WriteLine($"Хотите ли вы взять книгу? {ParameterPressYes} - да, {ParameterPressNo} - нет.");
-
-                userInput = Console.ReadLine();
-
-                int.TryParse(userInput, out int number);
-
-                if (number == ParameterPressYes)
-                {
-                    if (books.Count > 1)
-                    {
-                        Console.WriteLine($"Если хотите взять любую из этих книг введите ее название.\n");
-
-                        userInput = Console.ReadLine();
-
-                        GetBook((ICollection<Book>)_libraryan.SearchByTitle(userInput));
-                    }
-
-                    if (books.Count == 1)
-                    {
-                        GetBook(books);
-
-                        Console.WriteLine("Поздравляю, вы взяли книгу!");
-                    }
-                }
-                else if (number == ParameterPressNo)
-                {
-                    Console.WriteLine("Для продолжения нажмите любую кнопку.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Ни одной такой книги нет.");
-            }
-        }
-
-        private void GetBook(ICollection<Book> books)
-        {
-            foreach (Book book in books)
-            {
-                _library.TakeBook(book);
-                _readingBooks.Add(book);
-            }
-        }
-
         private void ShowBooks(ICollection<Book> books)
         {
             foreach (var book in books)
@@ -269,16 +169,13 @@ namespace VirtualLibrary
     public class InputHandler
     {
         private const int ParameterShowAllBooks = 1;
-        private const int ParameterShowMyBooks = 2;
-        private const int ParameterAddNewBook = 3;
-        private const int ParameterTakeBook = 4;
-        private const int ParameterGiveBook = 5;
-        private const int ParameterDropBook = 6;
-        private const int ParameterSerchBookByTitle = 7;
-        private const int ParameterSerchBookByAuthor = 8;
-        private const int ParameterSerchBookByGenre = 9;
-        private const int ParameterSerchBookBYear = 10;
-        private const int ParameterExit = 11;
+        private const int ParameterAddNewBook = 2;
+        private const int ParameterDropBook = 3;
+        private const int ParameterSerchBookByTitle = 4;
+        private const int ParameterSerchBookByAuthor = 5;
+        private const int ParameterSerchBookByGenre = 6;
+        private const int ParameterSerchBookBYear = 7;
+        private const int ParameterExit = 8;
 
         private string _userInput;
         private CommandHandler _commandHandler;
@@ -305,20 +202,8 @@ namespace VirtualLibrary
                     _commandHandler.ShowAllBooks();
                     break;
 
-                case ParameterShowMyBooks:
-                    _commandHandler.ShowMyBooks();
-                    break;
-
                 case ParameterAddNewBook:
                     _commandHandler.AddNewBook();
-                    break;
-
-                case ParameterTakeBook:
-                    _commandHandler.TakeBook();
-                    break;
-
-                case ParameterGiveBook:
-                    _commandHandler.GiveBook();
                     break;
 
                 case ParameterDropBook:
@@ -354,10 +239,7 @@ namespace VirtualLibrary
         private void ShowMenu()
         {
             Console.WriteLine($"Для того чтобы посмотреть список всех доступных книг введите - {ParameterShowAllBooks}");
-            Console.WriteLine($"Для того чтобы посмотреть список всех моих книг введите - {ParameterShowMyBooks}");
             Console.WriteLine($"Для того чтобы добавить свою книгу введите - {ParameterAddNewBook}");
-            Console.WriteLine($"Для того чтобы взять книгу введите - {ParameterTakeBook}");
-            Console.WriteLine($"Для того чтобы сдать книгу введите - {ParameterGiveBook}");
             Console.WriteLine($"Для того чтобы выкинуть книгу введите - {ParameterDropBook}");
             Console.WriteLine($"Для поиска книг по названию введите - {ParameterSerchBookByTitle}");
             Console.WriteLine($"Для поиска книг по автору введите - {ParameterSerchBookByAuthor}");
@@ -412,9 +294,8 @@ namespace VirtualLibrary
 
         public void AddBook(Book book) => _books.Add(book);
 
-        public void TakeBook(Book book) => _books.Remove(book);
+        public void RemoveBook(Book book) => _books.Remove(book);
 
         public IReadOnlyCollection<Book> LibraryBooks => _books;
-
     }
 }
