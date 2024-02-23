@@ -15,7 +15,7 @@ namespace VirtualLibrary
 
             while (inputHandler.IsActiv)
             {
-                inputHandler.ProcessingInput();
+                inputHandler.ProcessInput();
 
                 Console.ReadKey();
 
@@ -137,7 +137,7 @@ namespace VirtualLibrary
                 Console.WriteLine("Неверный ввод!");            
         }
 
-        public void FillingLibrary()
+        public void FillLibrary()
         {
             Book book1 = new Book("Игра Эндера", "Кард Орсон Скотт", "Фантастика", 1985);
             Book book2 = new Book("Тень Эндера", "Кард Орсон Скотт", "Фантастика", 1999);
@@ -183,12 +183,12 @@ namespace VirtualLibrary
         public InputHandler(CommandHandler commandHandler)
         {
             _commandHandler = commandHandler;
-            _commandHandler.FillingLibrary();
+            _commandHandler.FillLibrary();
         }
 
         public bool IsActiv { get; private set; } = true;
 
-        public void ProcessingInput()
+        public void ProcessInput()
         {
             ShowMenu();
 
