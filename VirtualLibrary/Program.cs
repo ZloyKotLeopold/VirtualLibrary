@@ -153,6 +153,7 @@ namespace VirtualLibrary
             _library.AddBook(book5);
             _library.AddBook(book6);
         }
+
         private void ShowBooks(ICollection<Book> books)
         {
             foreach (var book in books)
